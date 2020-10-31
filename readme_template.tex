@@ -1,0 +1,53 @@
+This is a template or provisional style to be used to present doctoral theses at the UPF in format B5. It has been tried to simplify it to the maximum so that experienced users can easily adapt their own styles and that less-used people to work with styles can easily use it. 
+
+\begin{description}
+\item[file tesi-upf.cls] It is a modification of the style {\tt book} with the following particularities
+  \begin{enumerate}
+  \item The cover is redesigned (the instruction\verb+\maketitle+).
+
+  \item The titles of the chapters are written in capital letters.
+
+  \item Is redesigned {\tt cleardoublepage} because the blank pages are not numbered.
+  \end{enumerate}
+
+\item[The preamble] Has diferent instructions
+  \begin{enumerate}
+  \item The combination of the packages {\tt geometry} i {\tt crop} It allows framing what will be the final page that will then be cut to size {\tt B5}. Before cutting it, it is advisable to remove the marks, commenting on the corresponding orders, unless the printing company asks us to do so.
+
+  \item In the event that the thesis is in Catalan, the title of `` Index '' for `` Summary '' is redefined.
+
+  \item The package is used {\tt times} to use this font.
+
+  \item It indicates \verb+\pagestyle{plain}+ so that the headings do not appear.
+
+  \item  To the orders {\tt title}, {\tt subtitle}, {\tt author}, {\tt thyear},{\tt department}, {\tt supervisor} the appropriate values ??must be put. \LaTeX will generate the cover from them.
+  \end{enumerate}
+
+\item[packages] For the convenience of the user the packages are incorporated {\tt crop} i {\tt geometry}. 
+
+\item[Bibliography] o check the operation, a small bibliographic database is incorporated, named  \verb+tesi_upf_bib.bib+
+
+
+\item[Tables] It incorporates a \verb+figure+ i un \verb+tabular+ to check the operation of the indexes.
+
+\end{description}
+
+
+\section*{Index}
+
+It is advisable to use the index with entries like the following, which refers to the inventor of \LaTeX:  \verb+\index{Lamport}+ \index{Lamport}. 
+\begin{enumerate}
+\item The orders \verb+\usepackage{makeidx} \makeindex+ in the preamble of the document and \verb+\printindex+ In the place where we want the references to appear, they cause the index to be generated. To generate it effectively you must use the program \verb+makeindex+ (it is done in a different way according to the distribution and the editor we use).
+\end{enumerate}
+
+\section*{The bibliography}
+In order to be able to efficiently use bibliographic references, it is convenient to use the BibTeX program. To do it 
+\begin{enumerate}
+\item We write in the preamble \verb+\bibliographystyle{plain}+ where instead of \verb+plain+ It can be some of the usual styles, for example \verb+vancouver+\ldots Vancouver style is also included \verb+vancouver+.
+
+\item On the site of the document where we want the list of references to appear, we write \verb+ \bibliography{tesi_upf_bib}
+
+
+\end{enumerate}
+
+

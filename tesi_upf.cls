@@ -212,8 +212,8 @@
   \begin{flushleft}%
     {\LARGE \sffamily \@title \par}%
     \vspace*{2cm}
-    {\Large \sffamily \@subtitle \par}%
-    \vskip 2cm%
+    %{\Large \sffamily \@subtitle \par}%
+    %\vskip 2cm%
     {\large
      \lineskip .75em%
       \begin{tabular}[t]{c}%
