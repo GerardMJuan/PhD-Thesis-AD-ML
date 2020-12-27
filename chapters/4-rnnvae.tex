@@ -277,7 +277,7 @@ Each channel will have a different longitudinal component, depending on a common
 
 Data used in this chapter were obtained from the Alzheimer’s Disease Neuroimaging Initiative (ADNI) database \cite{Mueller2005}. The ADNI was launched in 2003 as a public-private partnership, led by Principal Investigator Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial biological imaging markers, and clinical and neuropsychological assessment can be combined to measure the progression of MCI and early AD. \\
 
-We focused on five different data modalities. Full relation of features used can be found as a supplementary file in the repository of the project: \\
+We focused on five different data modalities. Full relation of features used can be found in supplementary file S1: \\
 
 \begin{itemize}
     \item Brain subcortical volumes: We select MRI T1 weighted images, preprocessed using gradient warping, scaling, B1 correction and N3 homogeneity correction. Images were then automatically processed with the longitudinal pipeline \cite{Reuter2012} in FreeSurfer. Specifically, an unbiased within-subject template space and image is created using robust, inverse consistent registration \cite{Reuter2010}. Several processing steps, such as skull stripping, Talairach transforms, atlas registration as well as spherical surface maps and parcellations are then initialized with common information from the within-subject template, significantly increasing reliability and statistical power. We use the parcelled subcortical volumes, obtaining 40 features.
@@ -344,7 +344,7 @@ We evaluate our results on the held-out test set on two different tasks:
 For the first task, we compare the performance of our model to two baseline methods: constant, using as prediction the previous time-point data; and linear, doing a linear regression for each sample and channel to predict the missing time point. For the second task, we compare our method to a baseline method based on k-means: for each sample in the test set, we perform a k-means search for each individual channel to find the closest sample in our training set. For each of those samples, we select the channel we are reconstructing, and we average them to obtain the reconstructed channel for the original sample. We evaluate both tasks using mean absolute error (MAE). \\
 
 %% Qualitative results? Generating from latent space and showing the generated data, or draw trajectories over the latent space.
-We also test the generative capabilities of the model by reconstructing the cortical and subcortical data of two synthetic patients: one with a stable, healthy cognitive trajectory, and another one which is rapidly declining. We generate 4 time points for each of the subjects, and visualize the longitudinal neurodegeneration trajectories and their plausability. Information about the exact data used for those synthetic patients can be found the repository of the project (Supplementary data B). \\
+We also test the generative capabilities of the model by reconstructing the cortical and subcortical data of two synthetic patients: one with a stable, healthy cognitive trajectory, and another one which is rapidly declining. We generate 4 time points for each of the subjects, and visualize the longitudinal neurodegeneration trajectories and their plausability. Information about the exact data used for those synthetic patients can be found in Supplementary data S2. \\
 
 \section{Results}
 \label{rnn:results}
@@ -369,8 +369,7 @@ Regarding the application of variational dropout, Figure \ref{fig:rnn:synth2} sh
 
 \subsection{ADNI results}
 
-%% Supplementary on the hypeparam optimization?
-After hyperparameter optimization, we selected [] as the best parameters.  Table \ref{fig:results:data} shows the results in the two tasks described, on the hold-out test set, and comparing it to the baseline models described above. We show results for single channel and multi-channel networks.
+After hyperparameter optimization, we selected ${Rnn hidden=300, lat_dim = 20, n_layers = 1 and hidden RNN size=300}$ as the best parameters. Table \ref{fig:results:data} shows the results in the two tasks described, on the hold-out test set, and comparing it to the baseline models described above. We show results for single channel and multi-channel networks.
 
 \begin{table}[!htbp]
 \centering
