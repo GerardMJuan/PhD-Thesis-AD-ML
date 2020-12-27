@@ -10,7 +10,7 @@
 %ONLY TO OBTAIN MARK BANK INDEX INDICATION B5
 \usepackage[b5paper]{geometry}
 % this needs to be removed eventually
-% \usepackage[cam,a4,center,frame]{crop}
+%\usepackage[cam,a4,center,frame]{crop}
 
 %INCLUDE GRAPHICS AND THE LOGO OF THE UPF
 \usepackage{graphicx}
@@ -32,7 +32,6 @@
 \usepackage{xurl}
 \usepackage[table]{xcolor}
 \usepackage{caption}
-\usepackage{floatpag}
 \usepackage[table]{xcolor}
 \usepackage{gensymb}
 \usepackage{xparse}   % http://ctan.org/pkg/xparse
@@ -58,11 +57,27 @@
 %\usepackage{garamond}
 
 %WITHOUT HEADINGS: NO MODIFICATION
-\pagestyle{plain}
+\usepackage{fancyhdr}
+
+\fancyhead{}
+\fancyfoot{}
+\setlength{\headheight}{15pt}
+
+%\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[LO]{\footnotesize\slshape \rightmark}
+\fancyhead[RE]{\footnotesize\slshape \leftmark}
+\fancyhead[RO]{\iffloatpage{\thepage}{\thepage}}
+\fancyhead[LE]{\iffloatpage{\thepage}{\thepage}}
+
+%\fancyfoot[C]{\iffloatpage{}{\thepage}}
+\pagestyle{fancy}
 
 %FOR THE INDEX OF SUBJECTS
 \usepackage{makeidx}
 \makeindex
+
+%%% CHAPTERPAGE
+%\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
 
 %BIBLIOGRAPHY STYLE
 %\bibliographystyle{numeric}
@@ -75,11 +90,16 @@
 \addto\captionscatalan
   {\renewcommand{\contentsname}{\Large \sffamily Sumari}}
 
+%% MACRO TO CREATE FOOTNOTE WITHOUT NUMBERS
+\makeatletter
+\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+\makeatother
+
 %ADD YOUR DATA
-\title{Machine learning methods for the study of longitudinal and heterogeneous medical data: Application to Alzheimer's Disease}
+\title{Data-driven methods to characterize heterogeneity in Alzheimer’s disease using cross-sectional and longitudinal data}
 \subtitle{}
 \author{Gerard Martí Juan}
-\thyear{2020}
+\thyear{2021}
 \department{Department of Information and Communication Technologies}
 \supervisor{Prof. Gemma Piella and Dr. Gerard Sanromà}
 
@@ -92,14 +112,27 @@
 
 %%%%%% Dedication
 
-\noindent Write here your dedication
+%\noindent 
 
-\cleardoublepage
+%\cleardoublepage
 
 %%%%%% End dedication
 
 %%%%%% Thanks
-\noindent {\Large \sffamily Thanks} thanks to....
+\noindent {\Large \sffamily Agraïments} \\
+Aquesta tesi és el resultat de quatre anys de feina, en els que he après moltíssimes coses i he crescut molt personalment i professionalment. No hagués pogut escriure aquesta tesi sense l'ajuda de moltíssimes persones. \\
+
+En primer lloc, agrair enormement la feina dels meus supervisors, Gerard i Gemma, per les seves idees, suggeriments, i estar sempre disponible per qualsevol pregunta, correcció o el que necessités i per tenir sempre una actitud positiva, tan quan les coses sortien bé com quan no. Ha estat un gust enorme treballar plegats. \\
+
+També vull donar les gràcies al Marco Lorenzi, d'INRIA, per donar-me la oportunitat d'anar un mes a fer una estada doctoral al seu grup. Enmig d'una pandèmia mundial, em va donar totes les facilitats del món per poder anar-hi i aprofitar-ho al màxim, i tot i que no vaig poder quedar-m'hi més temps, va ser una gran experiència. \\
+
+Aquests 4 anys a la UPF (3 presencials, i 1 a distància, per desgràcia) no haguéssin estat el mateix sense la gent amb la que he compartit el dia a dia. Des dels que hi eren quan vaig arribar, fins als que han arribat després. El botó de bullshit, tardes interminables, cafès al Daniel, rates per la oficina, els dinars amb els microones que no calentaven, discussions sobre futbol (en les que sempre tenia raó), les calçotades, cerveses a l'Atrium. Gràcies a tots. Us he trobat a faltar aquest maleït any. Tornarem a trobar-nos, quan tot acabi. \\
+
+No sembla que faci tant de temps que començavem l'escola, l'institut, o que compartíem els primers dinars al Penya. Després de tants anys, i amb tants d'altres per endavant, em sento molt afortunat de tenir amics que fan que tot això valgui la pena. Enrere queden hores impagables jugant a videojocs, fent cerveses, compartint moments, conversant, compartint memes absurds, rient. Encara ens queda molt per endavant. Keep moving forward. \\
+
+Tinc la sort de tenir una gran família. Als meus avis, tiets i cosins, gràcies per ser-hi sempre. I als meus pares i a la meva germana, per donar-me sempre suport en tot el que he decidit fer a la vida (i per suportar-me aquests últims mesos de pandèmia). Gràcies Papa, Mama, i Aina. Us estimo molt. \\
+
+Per acabar, el dia més important d'aquests últims 4 anys no serà el dia de la defensa de tesi, sinó el 8 de Març de 2017, i no precisament per fotre-li 6 gols al PSG. Gràcies per ser com ets i fer-me tan feliç. Sense tu, estaria perdut. T'estimo molt, Núria. \\
 
 \cleardoublepage
 
@@ -109,13 +142,16 @@
 \selectlanguage{english}
 \section*{\Large \sffamily Abstract}
 % INITIAL REQUERIMENT IS TO USE LESS THAN 150 WORDS.
-Alzheimer's disease (AD), the most common form of dementia, is an incurable neurodegenerative disease that affects millions of elderly people worldwide. Detecting the disease in its early stages is key for a more effective treatment. AD is a multifactorial disease , where several markers represent different pathophysiological processes in the brain, with distinct progression paths over time. Methods that are able to process and interpret longitudinal, heterogeneous medical data available could be of benefit for a better understanding of the disease and its progression. In this thesis, we present machine learning based methods and studies for the analysis of these types of data, to assess disease progression and early detection.
-Contributions of this thesis are as follows: First, we present a review on statistical and machine learning applications in Alzheimer's disease using longitudinal neuroimaging: we analyze their approach to typical challenges in longitudinal data analysis and show that machine learning methods using longitudinal data have potential for disease progression modelling and computer-aided diagnosis. Our second contribution is a study of Alzheimer's disease subtyping using novel plasma-based blood markers, we used a multivariate, multiple kernel learning based embedding method over blood-based markers to find subgroups of patients defined by distinctive blood marker profiles. We propose two different approaches for cross-sectional and longitudinal, using different types of kernel-based methods. Our third contribution is the modelling of the progression of the disease using multimodal, longitudinal data, through the use of a recurrent, multi-modal variational autoencoder. Our fourth and final contribution is an analysis of the impact of APOE $\varepsilon$4 gene dose and its association with age, on hippocampal shape assessed with multivariate surface analysis, in a $\varepsilon4$-enriched cohort.
+Alzheimer's disease (AD), the most common form of dementia, is an incurable neurodegenerative disease that affects millions of elderly people worldwide. Detecting the disease in its early stages is the key for a more effective treatment. AD is a multifactorial disease, where several markers represent different pathophysiological processes in the brain, with distinct progression paths over time. Methods to facilitate the integration and interpretation of longitudinal, heterogeneous medical data could be of benefit for a better understanding of the disease and its progression. In this thesis, we present statistical and machine learning methods and studies for early detection and to assess disease progression. \\
+
+Contributions of this thesis are as follows: First, we present a review on machine learning applications in AD using longitudinal neuroimaging: we analyze their approach to typical challenges in longitudinal data analysis and show that machine learning methods using longitudinal data have potential to improve disease progression modelling and computer-aided diagnosis. Our second contribution is a study of AD subtyping using novel plasma-based blood markers. We used a multivariate, multiple kernel learning embedding method over blood-based markers to find subgroups of patients defined by distinctive blood marker profiles, and we analyze those subgroups using cross-sectional and longitudinal neuroimaging data. Our third contribution is a novel method based on recurrent, multimodal variational autoencoders to model the progression of the disease. It can use a variable number of modalities and time-points across different subjects, and we show its performance quantitatively and qualitatively. Our fourth and final contribution is an analysis of the impact of APOE $\varepsilon4$ gene dose and its association with age on hippocampal shape, assessed with multivariate surface analysis, using a $\varepsilon4$-enriched cohort.
 
 \selectlanguage{catalan}
 \vspace*{\fill}
 \section*{\Large \sffamily  Resum}
-Resum de la tesi en català. (i aquí traduit!)
+La malaltia d'Alzheimer, o simplement alzhèimer, és una malaltia neurodegenerativa incurable que afecta milions de persones a tot el món. La detecció de la malaltia en els seus primers estadis és clau per a un tractament més eficaç. L’alzhèimer és una malaltia multifactorial, on diversos marcadors representen processos fisiopatològics diferents al cervell, amb diferents tipus de progressió al llarg del temps. Mètodes per facilitar la integració i la interpretació de dades mèdiques longitudinals i heterogènies poden ser útils per aconseguir una millor comprensió de la malaltia i la seva progressió. En aquesta tesi presentem mètodes estadístics i d’aprenentatge automàtic per a la detecció precoç i per avaluar la progressió de la malaltia. \\
+
+Les contribucions d’aquesta tesi són les següents: En primer lloc, presentem una revisió de mètodes d’aprenentatge automàtic aplicats a l'alzhèimer que utilitza dades de neuroimatge longitudinals: analitzem el seu enfocament als desafiaments típics en l’anàlisi d'aquestes dades i demostrem que els mètodes d’aprenentatge automàtic que utilitzen dades longitudinals tenen potencial per a millorar la modelització de la progressió de la malaltia i el diagnòstic assistit per ordinador. La nostra segona contribució és un estudi de subtipatge de l'alzhèimer mitjançant marcadors sanguinis basats en plasma. Utilitzem un mètode multivariat i no supervisat en marcadors sanguinis per trobar subgrups de pacients definits per perfils distintius d'aquests marcadors, i analitzem aquests subgrups utilitzant dades de neuroimatge transversal i longitudinal. La nostra tercera contribució és un mètode basat en "recurrent variational autoencoders", un tipus de xarxa neuronal, per modelar la progressió de la malaltia. El mètode utilitza un nombre variable de modalitats i punts de temps en diferents pacients, i mostrem el seu rendiment quantitativament i qualitativament. La nostra quarta i última contribució és una anàlisi de l’impacte de la dosi del gen APOE $\varepsilon4$ i la seva associació amb l’edat en la forma de l’hipocamp, evaluada amb un anàlisi de superfície multivariada sobre una cohort amb alta proporció de pacients amb el gen $\varepsilon4$.
 \vspace*{\fill}
 
 \cleardoublepage
@@ -123,9 +159,10 @@ Resum de la tesi en català. (i aquí traduit!)
 \selectlanguage{english}
 
 %PREFACE. 
-{\bf Preface} % que es aixo lmao
+% PREFACE AND THANKS ARE THE SAME, RIGHT
+%{\bf Preface} % que es aixo lmao
 
-\cleardoublepage
+%\cleardoublepage
 %END OF PREFACE
 
 %TABLE OF CONTENTS: REQUIRED
@@ -144,33 +181,36 @@ Resum de la tesi en català. (i aquí traduit!)
 %START THE TEXT
 \mainmatter
 
-\chapter{Introduction}
+\chapter{Introduction} \label{ch:1-introduction}
 \input{chapters/1-introduction}
 
-\chapter{Background on machine learning methods for longitudinal data}
+\chapter[A survey on machine and statistical learning for longitudinal analysis of neuroimaging data in Alzheimer’s Disease]{A survey on machine and statistical learning for longitudinal analysis of neuroimaging data in Alzheimer’s Disease} \label{ch:2-review}
+\chaptermark{Survey on ML methods in longitudinal AD}
 \input{chapters/2-review}
 
-\chapter{Study of multivariate tal CIMLR}
+\chapter{Unsupervised subtyping using blood based markers on cross-sectional and longitudinal brain imaging phenotypes in Alzheimer's Disease.} \label{ch:3-cimlr}
+\chaptermark{Clustering on blood markers in AD}
 % I aqui puc intentar combinar les dos coses? Fer dos subchapters?
 \input{chapters/3-cimlr}
 
-
-\chapter{Variational Autoencoder tal tal tal}
+\chapter{Recurrent multi-channel variational autoencoder applied to Alzheimer's Disease progression.} \label{ch:4-rnnvae}
+\chaptermark{RNN multi-channel VAE for AD}
 % I aqui puc intentar combinar les dos coses? Fer dos subchapters?
 \input{chapters/4-rnnvae}
 
-\chapter{Collaboration with pascual maragall tal}
+\chapter{Non-linear interaction between APOE $\varepsilon$4 allele load and age on the hippocampal surface of cognitively intact individuals} \label{ch:5-pmhippocampus}
+\chaptermark{APOE$\varepsilon$4 study on the hippocampus}
 % I aqui puc intentar combinar les dos coses? Fer dos subchapters?
 \input{chapters/5-pmhippocampus}
 
-\chapter{Conclusions}
+\chapter{Conclusions} \label{ch:6-conclusions}
 % I aqui puc intentar combinar les dos coses? Fer dos subchapters?
 \input{chapters/6-conclusions}
 
 %% AFTER BIBLIOGRAPHY, NEED TO PRINT CV AND PUBLICATIONS?
 \backmatter
 
-\chapter{Appendix}
+%\chapter{Appendix}
 % I aqui puc intentar combinar les dos coses? Fer dos subchapters?
 % \input{chapters/A-appendix}
 
@@ -178,30 +218,35 @@ Resum de la tesi en català. (i aquí traduit!)
 \addcontentsline{toc}{chapter}{BIBLIOGRAPHY}
 \bibliography{phdbib}
 
-\addcontentsline{toc}{chapter}{CURRICULUM VITAE}
-\chapter*{CURRICULUM VITAE}
+%\addcontentsline{toc}{chapter}{CURRICULUM VITAE}
+%\chapter*{CURRICULUM VITAE}
 
 \addcontentsline{toc}{chapter}{PUBLICATIONS}
 \chapter*{PUBLICATIONS}
 
+\subsection*{2021}
+
+\begin{itemize}
+\item \textbf{Martí-Juan, G.}, .... (la de MCVAE). In preparation.
+\end{itemize}
+
+\subsection*{2020}
+
+\begin{itemize}
+\item \textbf{Martí‐Juan, G.}, Sanroma‐Guell, G., Cacciaglia, R., Falcon, C., Operto, G., Molinuevo, J. L., … Piella, G. (2020). Nonlinear interaction between APOE$\varepsilon$ 4 allele load and age in the hippocampal surface of cognitively intact individuals. Human Brain Mapping, hbm.25202. \url{https://doi.org/10.1002/hbm.25202}
+
+\item \textbf{Martí-Juan, G.}, Sanroma-Guell, G., Piella, G. (2020, June 1). A survey on machine and statistical learning for longitudinal analysis of neuroimaging data in Alzheimer’s disease. Computer Methods and Programs in Biomedicine, Vol. 189, p. 105348. \url{https://doi.org/10.1016/j.cmpb.2020.105348}
+\end{itemize}
+
+\textbf{2019}
+
+\begin{itemize}
+
+\item \textbf{Martí-Juan, G.}. Sanroma, G., Piella, G., 2019. Heterogeneity of longitudinal brain imaging phenotypes in Alzheimer's Disease based on based on unsupervised clustering of blood marker profiles. Computer Assisted Radiology and Surgery (CARS) Poster Presentation, Rennes 2019.
+
+\item \textbf{Martí-Juan, G.}, Sanroma, G., Piella, G., 2019. Revealing heterogeneity of brain imaging phenotypes in Alzheimer’s disease based on unsupervised clustering of blood marker profiles. PLoS One 14. \url{https://doi.org/10.1371/journal.pone.0211121}
+\end{itemize}
+
 \printindex
 
 \end{document}
-
-%NUMBER OF THE EXTERNAL PAGE EXCEPT IN THE FIRST PAGE OF EACH CAPITAL
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyfoot{}
-\fancyfoot[RO]{\thepage}
-\fancyfoot[LE]{\thepage}
-
-%MULTIPLE INDEX
-%In the preamble
-\usepackage{multind}
-\makeindex{authors}
-%Introduction to form entries
-\index{authors}{Einstein}
-%Situation of the Index
-\printindex{authors}{Author index}
-%The \ usepakage {makeidx} \ makeindex \ printindex commands must be removed
-%You need to exacute from the command line makeindex authors

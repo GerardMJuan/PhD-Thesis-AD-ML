@@ -1,5 +1,9 @@
-\section{CIMLR -1}
-\subsection{Introduction}
+% IDEA OF DIVISION
+% We could make a shared introduction, then two alternative big subchapters, with methods results and discussion each.
+\blfootnote{Adapted from: Martí-Juan, G., Sanroma, G., Piella, G., 2019. Revealing heterogeneity of brain imaging phenotypes in Alzheimer’s disease based on unsupervised clustering of blood marker profiles. PLoS One 14. \url{https://doi.org/10.1371/journal.pone.0211121}}
+
+\section{Introduction}
+%%% NEED TO ADAPT INTRODUCTION TO ALSO THE SECOND PART, USING GAK KERNELS.
 Alzheimer's disease (AD) is the most common cause of dementia, a condition affecting more than 47 million people worldwide \cite{AlzheimersAssociation}. AD is one of the biggest concerns in global health care, due to its large economic and social impact. It is characterized by a deposition of amyloid-beta (A$\beta$) protein in the brain and the formation of tau plaques \cite{Jack2018}, and its most prevalent symptom is a progressive decline and deterioration of cognitive skills, leading to death. AD has been characterized as a multi-factorial disease \cite{Jack2013,Jack2018}, involving many different processes and biological phenomena. Despite many efforts spent on research, we know relatively little about many aspects of the disease. \\
 
 % Mention more thoroughly the markers for diagnostic and how they are expensive.
@@ -15,15 +19,18 @@ Currently, to diagnose accurately the disease and provide for an adequate treatm
 Several blood markers have been shown to correlate with structural changes. Dage et al. \cite{Dage2016} studied the connection between neurodegeneration and tau protein levels in plasma, finding association between cortical thickness, cognition, and tau levels. In a study by Mattsson et al. \cite{Mattsson2017}, plasma neurofilament light was associated with cognitive deterioration and imaging markers of AD. Thambisetty et al. \cite{Thambisetty2011} analyzed the relationship between various plasma proteins, brain volume and cortical thickness in AD patients, finding links between plasma proteins and AD neurodegeneration. In a later work \cite{Thambisetty2012}, they studied the relationship between plasma clusterin (apolipoprotein J) concentration and longitudinal brain atrophy, finding significant associations. \\
 
 %% Paragraph about clustering approach
-These previously described works do not take into account the possible heterogeneity arising from the interaction between blood and brain. AD is a highly heterogeneous disease, where its symptoms and path of degeneration can vary between patients, and identifying the different presentations or subtypes and their related signatures could help for a better detection of the disease and a better understanding of the interaction between different biological mechanisms (i.e. phenotypes). There have been many studies identifying possible heterogeneous subgroups of the disease. Noh et al. \cite{Noh2014} found 3 subtypes on distinct patterns of cortical atrophy, using Ward's clustering linkage method. Nettiksimmons et al. \cite{Nettiksimmons2010} presented subtypes based on CSF and MRI markers, and in a posterior study \cite{Nettiksimmons2013}, they argued that vascular damage could explain subtyping difference. They also studied heterogeneity in mild cognitive impairment patients \cite{Nettiksimmons2014}, using CSF, MRI, and plasma markers. In a different approach, Young et al. \cite{Young,Young2017} proposed an event ordering method to infer heterogeneous subtypes of the disease and stage.  \\
+These previously described works do not take into account the possible heterogeneity arising from the interaction between blood and brain. AD is a highly heterogeneous disease, where its symptoms and path of degeneration can vary between patients, and identifying the different presentations or subtypes and their related signatures could help for a better detection of the disease and a better understanding of the interaction between different biological mechanisms (i.e. phenotypes). There have been many studies identifying possible heterogeneous subgroups of the disease. Noh et al. \cite{Noh2014} found 3 subtypes on distinct patterns of cortical atrophy, using Ward's clustering linkage method. Nettiksimmons et al. \cite{Nettiksimmons2010} presented subtypes based on CSF and MRI markers, and in a posterior study \cite{Nettiksimmons2013}, they argued that vascular damage could explain subtyping difference. They also studied heterogeneity in mild cognitive impairment patients \cite{Nettiksimmons2014}, using CSF, MRI, and plasma markers. In a different approach, Young et al. \cite{Young2015a,Young2017} proposed an event ordering method to infer heterogeneous subtypes of the disease and stage.  \\
 
 Studies addressing heterogeneity of AD generally use the same data modality both to subtype the disease and analyze the obtained subgroups. This could hide relevant differences from other modalities. Moreover, clustering over features that are strongly correlated to the disease stage could lead to subgroups divided by disease severity, instead of by possible disease subtypes. Instead, we propose to use blood marker features to define the subgroups and then explore the relationships with the disease in each subgroup using brain volume and cortical thickness phenotypes and disease stages. We use a data-driven, non-supervised, multivariate clustering technique \cite{Ramazzotti2018} to identify different presentations of the disease using blood markers, and then we analyze how the different blood profiles interact with brain structural phenotypes across the different disease stages. Compared to methods limited by univariate analysis, such as direct statistical tests for a single marker, multivariate analysis allows identification of potentially hidden blood marker profiles associated with latent pathological processes, addressing a limitation of the reported blood marker studies. \\
 
-\subsection{Materials and methods}
-\subsubsection*{Data}
+%\section{Heterogeneity of cross-sectional brain imaging phenotypes in AD based on unsupervised clustering of blood marker profiles}
+%\sectionmark{Unsupervised clustering of blood marker profiles}
+
+\section{Materials and methods}
+\subsection*{Data}
 \label{data}
 
-Data from the Alzheimer's Disease Neuroimaging Initiative (ADNI) database (\url{adni.loni.usc.edu}) were used for this project. ADNI is a multi-site, longitudinal study launched in 2003 by Weiner et al. \cite{Mueller2005a} that includes acquisitions of MRI, PET, other biological markers, and clinical and neuropsychological assessment tests of patients over time to track the pathology of AD. For this work, we have selected subjects that had available  MRI T1.5 scan and blood marker information at baseline. After removing subjects that presented missing values, we ended up with a set of 298 subjects, including 52 cognitive normal (CN), 161 with mild cognitive impairment (MCI) and 85 with AD. Table \ref{tab:data} shows the demographic information of the studied cohort. \\
+Data from the Alzheimer's Disease Neuroimaging Initiative (ADNI) database (\url{adni.loni.usc.edu}) were used for this project. ADNI is a multi-site, longitudinal study launched in 2003 by Weiner et al. \cite{Mueller2005} that includes acquisitions of MRI, PET, other biological markers, and clinical and neuropsychological assessment tests of patients over time to track the pathology of AD. For this work, we have selected subjects that had available  MRI T1.5 scan and blood marker information at baseline. After removing subjects that presented missing values, we ended up with a set of 298 subjects, including 52 cognitive normal (CN), 161 with mild cognitive impairment (MCI) and 85 with AD. Table \ref{tab:data} shows the demographic information of the studied cohort. \\
 
 \begin{table}[!htbp]
 \centering
@@ -42,23 +49,23 @@ MMSE & $29 \pm 1.2$ & $26.9 \pm 1.8$  & $23.4 \pm 1.9$  & $26.3 \pm 2.6$ \\ \bot
 \label{tab:data}
 \end{table}
 
-We preselected 235 candidate plasma markers from the available cohort of biospecimen markers in ADNI, including 190 protein plasma markers gathered by the AD Metabolomics Consortium, plasma neurofilament light, A$\beta$ proteins 40 and 42, and 41 aminoacids. For the final selection, we accounted for the reported quality of the samples and removed any marker that had missing values in any of the reported subjects. The final selection consisted of 172 markers. Experimental design and quality control methods are described in \cite{DataPrimer} (for the protein plasma markers) and in the ADNI website (for the rest of biomarkers). MRI data were processed and registered to a common space using Freesurfer's \textit{recon-all} \cite{Fischl2012}. We selected 39 volumes of structures from relevant subcortical regions of the brain defined in the default atlas of Freesurfer \cite{Fischl2002} and cortical thickness of the whole brain for interaction analysis. The full list of the selected plasma markers and brain regions can be found in supplementary files S2 and S3. \\
+We preselected 235 candidate plasma markers from the available cohort of biospecimen markers in ADNI, including 190 protein plasma markers gathered by the AD Metabolomics Consortium, plasma neurofilament light, A$\beta$ proteins 40 and 42, and 41 aminoacids. For the final selection, we accounted for the reported quality of the samples and removed any marker that had missing values in any of the reported subjects. The final selection consisted of 172 markers. Experimental design and quality control methods are described in \cite{DataPrimer} (for the protein plasma markers) and in the ADNI website (for the rest of biomarkers). MRI data were processed and registered to a common space using Freesurfer's \textit{recon-all} \cite{Fischl2012}. We selected 39 volumes of structures from relevant subcortical regions of the brain defined in the default atlas of Freesurfer \cite{Fischl2002} and cortical thickness of the whole brain for interaction analysis. The full list of the selected plasma markers and brain regions can be found in the supplementary files S2 and S3\footnote{Supplementary files referenced on this chapter can be found with the original paper.}. \\
 
 Each volume value was normalized by the estimated intracraneal volume of the subject. Both structural volumes and plasma markers were standardized to $[0,1]$ range before processing, We used min-max scaling, substracting the minimum value of each biomarker and dividing by the difference between the maximum and the minimum. This way, we preserve zero entries and introduce robustness to small standard deviations in the biomarkers.\\
 
-\subsection{Methods}
+\section{Methods}
 \label{methods}
 
 To find the different profiles, we cluster the patients using their blood markers, without using neither brain phenotypes nor diagnosis. We analyze the resulting clusters to find the blood profiles of each cluster. To find heterogeneous brain presentations in each cluster, we analyze the relationships between brain phenotypes in each cluster and disease stage, thus revealing the interactions between blood marker profiles and brain phenotypes across the disease stages. Fig \ref{figmethod} shows the pipeline of the method. \\
 
-\begin{figure}[!h]
+\begin{figure}[!htbp]
 \centering
  \includegraphics[width=1.0\textwidth]{figures/cimlr/figure_1_new.pdf}
     \caption[Method overview.]{Method overview. We detect clusters on the space defined by the blood markers, define a different profile for each cluster, and, using the phenotypes extracted from the MRI images, we analyze the interactions between the profiles and the disease.}
     \label{figmethod}
 \end{figure}
 
-\subsubsection{Unsupervised clustering}
+\subsection{Unsupervised clustering}
 
 We use CIMLR (which originally stands for cancer integration via multikernel learning, since it was developed for cancer subtyping) \cite{Ramazzotti2018,Wang2017a}, to identify the blood markers that reveal natural subgroups in the data, without taking into account neither the brain phenotypes nor the disease stage, to obtain subtypes not defined by disease stage. We could have used any other unsupervised clustering method, but we selected CIMLR, coupled with manifold learning and k-means clustering, due to its scalability with large amounts of data, good performance on a variety of datasets \cite{Ramazzotti2018,Wang2017a}, and interpretability of results. \\
 
@@ -75,7 +82,7 @@ Let the input data consist of $N$ samples with $M$ features (i.e., blood markers
 \end{split}
 \end{align}
 
-Here, $\gamma, \mu, \text{ and } \beta$ are tuning parameters for the various terms of the optimization function, $I$ represents the identity matrix, $\| . \|_F$ stands for the Frobenius norm, and $tr$ denotes the trace of the matrix. The first term of Equation \ref{eq:1} links the learned similarity $S$ with the combination of kernels from all features: similarity between two samples should be small if their kernel-based distance is large. The second term enforces $S$ to have $C$ connected components, through the auxiliary matrix $A$ and its associated constraint $I_C$. The third term imposes a constraint on $w$ so that more than one kernel is selected, and last term applies a regularization penalizing the scale of the learned similarities. An extended overview of the algorithm, including the optimization method, can be found in \cite{Ramazzotti2018}. A MATLAB implementation of the method by the authors of the paper has been used  (\url{https://github.com/BatzoglouLabSU/SIMLR}). \\
+Here, $\gamma, \mu, \text{ and } \beta$ are tuning parameters for the various terms of the optimization function, $I$ represents the identity matrix, $\| . \|_F$ stands for the Frobenius norm, and $tr$ denotes the trace of the matrix. The first term of Equation \ref{eq:1} links the learned similarity $S$ with the combination of kernels from all features: similarity between two samples should be small if their kernel-based distance is large. The second term enforces $S$ to have $C$ connected components, through the auxiliary matrix $A$ and its associated constraint $I_C$. The third term imposes a constraint on $w$ so that more than one kernel is selected, and last term applies a regularization penalizing the scale of the learned similarities. An extended overview of the algorithm, including the optimization method, can be found in \cite{Ramazzotti2018}. A MATLAB implementation of the method by the authors of the paper has been used \footnote{\url{https://github.com/BatzoglouLabSU/SIMLR}}). \\
 
 
 We use Gaussian kernels to define $K_{mp}$. In total, there are $P$ kernels for each feature $m$, each with different parameters. This is needed because different markers could be sensitive to different ranges of parameters. We define $K_{mp}$ as:
@@ -92,25 +99,25 @@ with $KNN(x_{im})$ representing the $k$ nearest neighbours of subject $i$ with r
 
 As in \cite{Ramazzotti2018}, we estimate the best number of clusters with the heuristic proposed in \cite{Zelnik-Manor}, and further validate the choice with the elbow method. For visualization of the clusters and dimensionality reduction, we apply t-distributed stochastic neighbor embedding (t-SNE) \cite{VanDerMaaten2008}, a manifold learning technique, on the resulting similarity matrix. After obtaining the low dimensional embedding, k-means clustering is used to discover the clusters. \\
 
-\subsubsection{Cluster validation}
+\subsection{Cluster validation}
 
 We want to test the stability of the clusters against perturbations (e.g. particular choice of individuals). If the same clusters arise after modifying the choice of individuals, this suggests that the clustering is capturing an underlying structure in the data that is invariant to the particular choice of individuals, to some extent. We use a bootstrap procedure to test this stability. We apply the CIMLR-based clustering method to randomly select subsets of the data, with the same size of the original dataset but with replacement (i.e. some patients could appear several times, wheras others could not appear at all). After applying the clustering algorithm, we compute the similarity of the obtained clusters in each bootstrap iteration with the clusters obtained for the whole dataset. \\
 
 We use the Jaccard index to quantify the similarity between clusters. This Jaccard index is defined, for two sets $A,B$, as the intersection divided by the union of the sets:
 
 \begin{equation}
-J(A,B) = {{|A \cap B|}\over{|A \cup B|}} = {{|A \cap B|}\over{|A| + |B| - |A \cap B|}}.
+J(A,B) = {\frac{|A \cap B|}{|A \cup B|}} = {\frac{|A \cap B|}{|A| + |B| - |A \cap B|}}.
 \end{equation}
 
 The higher the index, the higher the similarity and hence the stability.
 
-\subsubsection{Profile discovery}
+\subsection{Profile discovery}
 
 Subjects in a given cluster share a specific profile of blood markers. To obtain the profile of each cluster, we need to determine which markers contributed more to the clustering. We look at the weights $w$ in the optimization procedure: each weight accounts for the importance of a specific kernel. As described above, we generate 15 kernels for each of the 172 markers, with 15 associated weights. We compute the importance as the sum of those weights. \\
 
 For further validation, we use one-way analysis of variance (ANOVA) tests of mean population across the clusters for the described markers to test whether the population of each subtype has a different mean. With this, we obtain a stable list of the most informative markers for the clustering, and describe the different blood profiles in each subgroup according to that set of markers. \\
 
-\subsubsection{Interaction analysis}
+\subsection{Interaction analysis}
 
 To detect different interactions between blood markers and structural brain phenotypes, we test for differences between the brain volumes and cortical thickness of the individuals in each subgroup. We perform three different comparison tests:
 
@@ -133,12 +140,19 @@ According to the permutation strategy, for the test to be significant, a higher 
 
 We use a non-parametric Mann-Whitney-Wilcoxon test for comparing the brain subvolumes. For cortical thickness, we use FreeSurfer's \textit{mri$\_$glmfit-sim} and \textit{fsPalm} to implement the analysis. We also perform a cluster-wise correction on the surface of the cortex and applied Bonferroni correction for the two hemispheres. In this way, we can map corrected regions in the cortex that present significant differences in each analysis. \\
 
+\subsection{Longitudinal analysis}
+NYI
+%%%
+% AQUI HAURIA D'ANAR EXTENSIÓ LONGITUDINAL
+%%%
+
+
 % Results and Discussion can be combined.
-\subsection{Results}
+\section{Results}
 
-We applied the proposed method to the described cohort of subjects from ADNI database, to find the subgroups with heterogeneous blood profiles and analyze the interactions with the disease of each subgroup using volume features and cortical thickness. All the experiments are reproducible following the instructions found in the repository of the project \url{https://github.com/GerardMJuan/simlr-ad}.
+We applied the proposed method to the described cohort of subjects from ADNI database, to find the subgroups with heterogeneous blood profiles and analyze the interactions with the disease of each subgroup using volume features and cortical thickness. All the experiments are reproducible following the instructions found in the repository of the project\footnote{\url{https://github.com/GerardMJuan/simlr-ad}}.
 
-\subsubsection{Clustering}
+\subsection{Clustering}
 
 After applying the heuristics on cluster size described in the Methods section, we obtained $C\in\{4,6\}$ using  \cite{Zelnik-Manor} and $C\in\{4,5\}$ using the elbow method. We decided on $C=4$ as the most appropriate choice. Fig \ref{figclusters} shows the learned similarity matrix $S$ and the cluster distribution in the first two dimensions of the low-dimensional space identified by t-SNE. We compared it to the similarity matrix and cluster distribution obtained using Euclidean distance on the original blood marker space. Fig \ref{figclusters} illustrates that clusters are not distinguishable when using an Euclidean-based similarity matrix, whereas CIMLR has a block structure that improves dimensionality reduction and cluster analysis. \\
 
@@ -197,9 +211,9 @@ Cognitive normal. MCI: Mild cognitive impairment. AD: Alzheimer’s disease. Apo
 \end{table}
 }
 
-\subsubsection{Blood marker ranking and profiling}
+\subsection{Blood marker ranking and profiling}
 
-CIMLR revealed patterns of plasma markers that relate to natural subgroups. Fig \ref{markers_imp} shows the ten most relevant markers determined by the weight vector $w$. The method uses all blood markers to find the clusters but, unlike other methods, it automatically weights each marker. S4 data contains the full set of weights.   \\
+CIMLR revealed patterns of plasma markers that relate to natural subgroups. Fig \ref{markers_imp} shows the ten most relevant markers determined by the weight vector $w$. The method uses all blood markers to find the clusters but, unlike other methods, it automatically weights each marker. S4 supplementary data contains the full set of weights.   \\
 
 \begin{figure}[!htbp]
 \centering
@@ -310,16 +324,119 @@ In cortical analysis, we found significant differences in MCI and AD patients of
 \label{dxcluster_againstrest_cort}
 \end{figure}
 
-\subsection{Discussion}
+\subsection{Longitudinal analysis}
+NYI 
+%%% AQUI TOTS ELS NOUS RESULTATS
+
+\section{Discussion}
 \label{conclusions}
 
+%%%%NEED TO ADD THIS CITATIONS: \cite{Cullen2020,Moscoso2020}
+
+%%% REWRITE TO TAKE INTO ACCOUNT THE NEW EXPERIMENTS
 We applied a multivariate data-driven procedure for AD subtyping using blood-based markers, to obtain heterogeneous groups with different blood marker profiles. We showed that patients with different profiles present different interactions between disease stage and brain phenotypes. Although existing blood markers can still not be used to properly diagnose the disease \cite{Schneider2009,Gupta2016,Lovheim2017}, using blood markers to detect patient profiles where the disease could behave differently and could provide valuable biological insights is a promising research direction. \\
 
 The method identifies natural subgroups of patients in a multivariate way, finding hidden associations between the markers and automatically weighting the most important ones. The method is scalable to a large number of subjects and to a large number of features, allowing for an easier incorporation of other types of data, such as genotypes or other not-included blood markers. It also has some limitations: the obtained subgroups do not have a high stability. We also did not compare to other possible subtyping methods to further validate the obtained results. \\
 
 From a clinical point of view, a study of the detected profiles is needed to investigate possible implications of the found markers. The different presentations of the disease detected in this work could be useful for a more personalized treatment in such an heterogeneous disease. Further validation of the results on a larger, independent cohorts of patients will be important to confirm the results and detect more complex profiles. Interactions of the profiles could also be further validated in other phenotypes, such as longitudinal brain atrophy.  \\
 
-\section{CIMLR2}
 
 
-I aqui la segona part
+
+
+
+%%%% OLD THINGS
+
+% \section{CIMLR2 (WIP title)}
+% %% Aqui la segona part. Una mica d'introducció de les coses que faig aqui
+% \blfootnote{Adapted from: tal tal tal}
+
+% \subsection{Introduction}
+% %% No ha de ser molt llarga. Hauria de ser una extensió de la d'abans, posant enfasi amb les diferencies i extensions respecte a l'anterior mètode i perquè val la pena.
+
+% \subsection{Methods}
+
+% \subsubsection{Data}
+
+% We use data from the ADNI... biomarker dataset and 
+
+% % Aqui hauria de descriure el dataset i la descripció dels mètodes
+% \subsubsection{Global Alignment Kernels}
+% % GAK kernels
+
+% Global Alignment Kernels \cite{Cuturi2011} are a set of kernels derived from DTW. These allows us to quantify similarity between trajectories of biomarkers, even if those biomarkers have missing data points, or variable number of lengths.
+
+% \subsubsection{Unsupervised Multiple Kernel Learning}
+
+% We will use an unsupervised Multiple Kernel Learning (uMKL) algorithm \cite{Lin2011} for combining different types of data into a low dimensional space. The advantage of using a MKL based algorithm is that each kernel encodes a specific biomarker, and the final projection onto a lower-dimensional space is a weighted combination of each kernel, directly providing us with the contribution or importance of each feature to the low-dimensional embedding. This is an algorithm that has been used for myocardial motion patterns \cite{Sanchez-Martinez2017} and longitudinal stress echocardiopathy sequences \cite{Nogueira2020}. \\
+
+% % Definition of the data
+% For a set of N patients with M distinct features, we define a a kernel matrix $K_m \in \mathbb{R}^{N \times N}$ for each feature, such that:
+
+% \begin{equation}
+%     K_m(i,j) = k_m(x^m_i, x^m_j)
+% \end{equation}
+
+% For any two samples $i$ and $j$, with $x^m_i$ and $x^m_j$ being the feature $m$ associated to patients $i$ and $j$, and $k_m$ being the kernel function used for that specific feature. Each feature can have a different dimensionality. \\
+
+% The projection of a sample $i$ to the low dimensional embedding $y_i$ can defined by:
+
+% \begin{equation}
+%     y_i = A^T\mathbb{K}^i\beta,
+% \end{equation}
+
+% Where $A\in \mathbb{R}^{N \times p}$ is a projection matrix, with $p$ being the dimensionality of the output space, and $\beta  \in \mathbb{R}^M $ encodes the weight of each feature. $\mathbb{K}_i \in \mathbb{R}^{N \times M}$ is a matrix that encodes the similarity of sample i to other samples, and is defined as:
+
+% \begin{equation}
+% K_i = \begin{bmatrix}
+%     K_1(1,i)  & \dots  & K_M{1,i} \\
+%     \vdots  & \ddots & \vdots \\
+%     K_1{N,i}  & \dots  & K_M{N,i}
+% \end{bmatrix}
+% \end{equation}
+
+% % Definition of the projection y  =tal tal tal
+% As we work on an unsupervised setting, we do not optimize with respect a set of labels. Instead, we want to find a low-dimensionality projection that preserves the main sources of variability of the original data: we want close samples in the feature space to be also close to each other in the output embedding. To achieve this, the final optimization is defined as:
+
+% \begin{equation}\label{eq:umkl}
+% \begin{split}
+%     & \min_{A, \beta} \sum_{i,j} \|A^T\mathbb{K}^i\beta - \|A^T\mathbb{K}^j\beta \|^2 \mathbb{W}_{ij} \\
+%     & s.t. \sum_i \| A^T \mathbb{K}^i \beta \|^2 \mathbb{D}_ii = 1, \\
+%     & \beta_m \geq 0, \sum_m \beta_m = 1
+% \end{split}
+% \end{equation}
+
+% In the first term of the equation, we define the affinity matrix  as $\mathbb{W}=\frac{1}{M} \sum_m K_m$, combining the normalized (using a variance-based method described in \cite{Sanchez-Martinez2017}) kernel matrices. By minimizing that product, we are forcing similar samples in the input space to also be close in the embedding. The second constraint, with $\mathbb{D} = \sum_j \mathbb{W}_{ij}$, forces the output embedding to not be arbitrarily scaled. Third and fourth terms force $\beta$ to contain non-zero weights and to sum to one. \\
+
+% We minimize $A$ and $\beta$ using a two step algorithm, iteratively fixing one and minimizing the other until a convergence criteria (e.g. stabilization of cost function) is reached. $A$ can be optimized using a generalized eigenvalue problem, while $\beta$ requires solving a nonconvex quadratically constrained quadratic programming problem, and can be solved using semidefinite programming methods. Further details on optimization and validation of the algorithm can be found in \cite{Lin2011}.
+
+% % validació dels mètodes
+% \subsubsection{Experiments}
+
+% %Explicar que amb només una modalitat volem buscar/corroborar coses similars al anterior pero amb més dades, i provar amb les altres dades per veure si hi havia una progressió
+
+% % Aquí explicació dels experiments, synthetic només provant lo de gak kernels per a tal tla
+
+% % Experiments de clustering
+
+% % Cross validation to validate que es repeteixen el mateix
+
+% % Importance of the ordering
+
+% % Mixed effect models tests, univariate tests, correction, etc etc etc
+
+% % Experiments de l'altre clustering, com fer-ho, potser classification performance on held out test set, visualització de la correlació de cada dimensió, potser un testing de la dimensió across DX?  
+
+% % Alguna visualització de les trajectòries? Rollo qualitatiu: 
+
+% \subsection{Results}
+
+% % Primer resultats del synthetic, dpres resultats normals
+
+% \subsection{Discussion}
+% % General discussion about this
+% % Compare with previous results, compare with existing results on the literature
+
+% \section{Conclusions}
+% %%% Maybe do a general conclusion of both subsections?
+% %% Mention que son exploratius, que fem servir dades existents, i que estaria bé testejar nous tal tal, o metodes de clustering que integrin tot i que permeten que tal tal tal
