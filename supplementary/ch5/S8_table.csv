@@ -1,0 +1,35 @@
+Test,Hipp,avg_T2,max_T2,Nclusters
+(AD+MCI) > CN,R,0.87,4.36,2
+(AD+MCI) > CN,L,0.77,3.28,1
+(CN+MCI) > AD,R,0.87,4.18,2
+(CN+MCI) > AD,L,0.66,3.54,1
+AD>CN,R,0.94,4.61,3
+AD>CN,L,0.73,3.65,1
+AD>CN,L,0.74,3.65,1
+AD>MCI,R,0.76,3.8,4
+AD>MCI,L,0.63,3.27,4
+AD>MCI,L,0.62,3.27,4
+Age,R,0.74,3.75,1
+Age,L,0.8,4.39,1
+Age^2 x ,R,0.67,3.36,0
+Age^2 x ,L,0.73,4.07,1
+Agesq,R,0.67,3.36,0
+Agesq,L,0.73,4.07,1
+MCI>CN,R,0.72,3.34,1
+MCI>CN,R,0.71,3.34,1
+MCI>CN,L,0.76,3.4,1
+Sex,R,2.19,12.82,1
+Sex,L,2.18,13.8,1
+Sex,L,2.17,13.8,1
+Site,R,0.63,3.52,0
+Site,R,0.64,3.52,0
+Site,L,0.65,3.26,0
+Years of education,R,0.8,4.43,2
+Years of education,R,0.81,4.43,2
+Years of education,L,0.74,4.16,1
+apoe_or,R,0.82,4.78,2
+apoe_or,L,0.96,5.66,2
+apoeDX,R,0.64,3.15,0
+apoeDX,L,0.73,3.62,0
+apoesqDX,R,0.65,3.17,0
+apoesqDX,L,0.7,3.94,0
