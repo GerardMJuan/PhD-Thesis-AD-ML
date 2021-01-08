@@ -14,4 +14,4 @@ Contributions of this thesis are as follows: First, we present a review on machi
 * **supplementary/**: Contains supplementary files for each chapter.
 
 # LICENSE
-CC-BY-SA-4.0
+Creative Commons Attribution 4.0 International
