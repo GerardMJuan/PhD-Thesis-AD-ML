@@ -1,10 +1,10 @@
 \section{Introduction}
 
 % General paragraph on AD
-Alzheimer's Disease (AD) is a neurodegenerative disease that causes progressive cognitive impairment, leading to death \cite{Lane2018}. AD currently has no cure and puts a strong strain in healthcare systems, due to the care needed by patients at later stages of the disease \cite{AlzheimersAssociation}. AD is a multifactorial disease that affects different systems and processes of the brain \cite{Jack2010}. Those processes are captured using different biomarkers coming from various imaging modalities, such as magnetic resonance imaging (MRI) to capture atrophy or positron emission tomography (PET) for glucose uptake or blood flow. For a disease as complex as AD, it is necessary to study not only how those different biomarkers interact between each other, but also their progression over time. For this reason, the use of longitudinal data, captured over several time points, is extremely valuable to researchers. However, it is often difficult to use this kind of medical data, as it can present missing data across modalities (e.g. unwillingness of  patients to receive invasive testing or unfeasibleness due to health concerns) and over time (e.g. due to medical follow-ups that were missed). \\
+Alzheimer's Disease (AD) is an irreversible neurodegenerative disease that causes progressive cognitive impairment, leading to death \cite{Lane2018}. AD currently has no cure and puts a strong strain in healthcare systems, due to the care needed by patients at later stages of the disease \cite{AlzheimersAssociation}. AD is a multifactorial disease that affects different systems and processes of the brain \cite{Jack2010}. Those processes are captured using different biomarkers coming from various imaging modalities, such as magnetic resonance imaging (MRI) to capture atrophy or positron emission tomography (PET) for glucose uptake or blood flow. For a disease as complex as AD, it is necessary to study not only how those different biomarkers interact between each other, but also their progression over time. For this reason, the use of longitudinal data, captured over several time points, is extremely valuable to researchers. However, it is often difficult to use this kind of medical data, as it can present missing data across modalities (e.g. unwillingness of  patients to receive invasive testing or unfeasibleness due to health concerns) and over time (e.g. due to medical follow-ups that were missed). \\
 
 % Introduction to disease progression methods (probably would be removed in a journal paper).
-Modelling longitudinal, multivariate data is a difficult task \cite{Verbeke2014}. For neurodegenerative diseases, progression modelling methods can be used to leverage medical data to identify and predict the trajectories of biomarkers, which could lead to better characterization and understanding of the evolution of the disease. Such techniques have been used for many degenerative diseases, including AD \cite{Oxtoby2017,Marti-Juan2020}. Examples of those techniques include event-based models \cite{Young2014,Young2015a,Fonteijn2012}, which discover, for a set of biomarkers, the order in which they will degenerate; Gaussian processes \cite{Lorenzi2015b,Hyun2016,Lorenzi2019}, which allow characterizing the uncertainty of the progression; and other methodologies \cite{Marinescu2019, Young2017}. Cao et al.\ \cite{Cao2019} proposed a method using canonical correlation analysis to compare two different time series, applied to functional MRI analysis. More recently, Antelmi et al.\ \cite{Antelmi2019} proposed a generative method based on a multi-channel variational autoencoder (VAE) using multiple modalities of cross-sectional data. Their method inferred a lower dimensional latent space generated jointly from all the modalities, and it modelled the dependence across modalities, being able to generate those that were missing in specific patients. These methods, however, are usually limited in the number of modalities they can combine or in the amount of longitudinal data they use (cross-sectional data, or only short-term data). Moreover, it is not clear how to combine longitudinal modalities with non-temporal ones, such as demographic or genetic data, which can influence the trajectory of the disease. \\
+Modelling longitudinal, multivariate data is a difficult task \cite{Verbeke2014}. For neurodegenerative diseases, progression modelling methods can be used to leverage medical data to identify and predict the trajectories of biomarkers, which could lead to better characterization and understanding of the evolution of the disease. Such techniques have been used for many degenerative diseases, including AD \cite{Oxtoby2017,Marti-Juan2020,Lei2020,Fisher2019}. Examples of those techniques include event-based models \cite{Young2014,Young2015a,Fonteijn2012}, which discover, for a set of biomarkers, the order in which they will degenerate; Gaussian processes \cite{Lorenzi2015b,Hyun2016,Lorenzi2019}, which allow characterizing the uncertainty of the progression; and other methodologies \cite{Marinescu2019, Young2017}. Cao et al.\ \cite{Cao2019} proposed a method using canonical correlation analysis to compare two different time series, applied to functional MRI analysis. More recently, Antelmi et al.\ \cite{Antelmi2019} proposed a generative method based on a multi-channel variational autoencoder (VAE) using multiple modalities of cross-sectional data. Their method inferred a lower dimensional latent space generated jointly from all the modalities, and it modelled the dependence across modalities, being able to generate those that were missing in specific patients. These methods, however, are usually limited in the number of modalities they can combine or in the amount of longitudinal data they use (cross-sectional data, or only short-term data). Moreover, it is not clear how to combine longitudinal modalities with non-temporal ones, such as demographic or genetic data, which can influence the trajectory of the disease. \\
 
 Longitudinal data can also be processed as sequences of data. Recurrent neural networks (RNN) \cite{Hochreiter1997} have become a powerful tool for sequence learning in the past few years. Although they have been mainly used for natural language processing \cite{Goldberg2017}, they have also been applied in other fields, such as image generation \cite{Gregor2015a} and AD progression \cite{Wang2018,Ghazi2019}. Variational RNN \cite{Chung2015,Fabius2015} adds a variational component to the RNN arquitecture, allowing it to capture more complex temporal variation by setting dependencies across time between the random latent variables. \\ 
 
@@ -12,7 +12,7 @@ Longitudinal data can also be processed as sequences of data. Recurrent neural n
 In this chapter, we propose a multi-channel recurrent variational autoencoder  (MC-RVAE) for disease progression modelling. Similarly to \cite{Antelmi2019}, we jointly model the dependencies across the channels of the network, but we build on the model by adding a variational recurrent block to capture the temporal dependencies alongside every channel. The model is able to use longitudinal data with variable number of time points and missing modalities. We show that the model captures the progression of the disease and the relationships between the modalities, being able to reconstruct missing modalities and predict future time points. Results shown in this chapter are preliminary at the time of writing this thesis, and more research is being conducted to improve and extend them. \\
 
 %% Needs to be updated when the whole chapter is detailed
-The chapter is organized as follows: In Section \ref{rnn:background}, we give some background on recurrentneural networks and variational autoencoders. In Section \ref{rnn:methods} we detail the proposed method, derive the variational lower bound used to optimize the model, and detail the experiments conducted, as well as the data used. Section \ref{rnn:results} contains the detailed results of our experiments. In Section \ref{rnn:discussion} we discuss the current results and show the most important contributions. Finally, in Section \ref{rnn:conclusions} we summarize the chapter, address the limitations of our model, and propose future lines of research.
+The chapter is organized as follows: In Section \ref{rnn:background}, we give some background on recurrent neural networks and variational autoencoders. In Section \ref{rnn:methods} we detail the proposed method, derive the variational lower bound used to optimize the model, and detail the experiments conducted, as well as the data used. Section \ref{rnn:results} contains the detailed results of our experiments. In Section \ref{rnn:discussion} we discuss the current results and show the most important contributions. Finally, in Section \ref{rnn:conclusions} we summarize the chapter, address the limitations of our model, and propose future lines of research.
 
 \section{Background}
 \label{rnn:background}
@@ -34,7 +34,7 @@ where $x_t$ is the vector of data at time $t$ and $h_{t-1}$ is the hidden state 
   \caption[Unroll of the recurrency for a basic RNN.]{Unroll of the recurrency for a simple RNN and input sequence $x = (x_0,x_1, ..., x_t)$. $W_h$ and $W_x$ are weight matrices. Biases not shown in the figure.}\label{fig:rnnvae:rnn}
 \end{figure}
 
-This is the basic formulation of a RNN, and although it works well for short-range sequences, it can fail for longer sequences due to gradient vanishing \cite{Hochreiter1998}, caused by the large number of operations needed to compute the gradient during training. More complex formulations have been proposed in the literature to address those issues, such as LSTM \cite{Hochreiter1997} or GRU \cite{Chung2014}. For a more in-depth look at RNNs, including training, formulation and derivation, we refer the reader to \cite{Sherstinsky2020}.  \\
+This is the basic formulation of a RNN, and although it works well for short-range sequences, it can fail for longer sequences due to gradient vanishing \cite{Hochreiter1998}, caused by the large number of operations needed to compute the gradient during training. More complex formulations have been proposed in the literature to address those issues, such as LSTM \cite{Hochreiter1997} or GRU \cite{Chung2014}. For a more in-depth look at RNNs, including training, formulation and derivation, we refer the reader to Sherstinsky et al.\ \cite{Sherstinsky2020}.  \\
 
 \subsection{Variational autoencoders}
 
@@ -47,10 +47,10 @@ Variational autoencoders (VAE) are probabilistic models that encode the observed
 where $p(x|z)$ is the likelihood of the input data conditioned on $z$ and $p(z)$ is the prior distribution of the latent variable. We want to infer the posterior $p(z|x)$, which will give us the best $z$ distribution for our data:
 
 \begin{equation} \label{eq:rnnvae:intract}
-\begin{aligned}
+\begin{gathered}
 p(z|x) = \frac{p(x,z)}{p(x)}, \\
 \text{with } p(x) = \int p(x,z) dz.
-\end{aligned}
+\end{gathered}
 \end{equation}
 
 However, this posterior cannot be computed directly for most problems, as $\int p(x)$ is intractable for most complex distributions. To solve this, we perform variational inference by approximating the real posterior by another distribution. We call this the approximate posterior $q(z|x)$. We define the objective function as:
@@ -91,13 +91,13 @@ We first describe the encoder and the decoder of our model for a specific channe
 \begin{equation} 
 \begin{aligned} \label{rnn:eq:generative}
 \displaystyle
-& \mathit{p}(x^c_t | z_{\leq t}, x^c_{< t}) = \mathcal{N}(\mu_{x^c_t},\Sigma_{x^c_t}), \text{ where } [\mu_{x^c_t},\Sigma_{x^c_t}] = \varphi_{dec}(\varphi_{z}(z_t), h_{t-1}) \\
+& \mathit{p}(x^c_t | z_{\leq t}, x^c_{< t}) = \mathcal{N}(\mu_{x^c_t},\Sigma_{x^c_t}), \text{ where } [\mu_{x^c_t},\Sigma_{x^c_t}] = \varphi_{dec}^c(\varphi_{z}(z_t), h_{t-1}) \\
 & \mathit{q}(z_t | x^c_{\leq t}, z_{< t}) = \mathcal{N}(\mu_{z,t},\Sigma_{z,t}), \text{ where } [ \mu_{z,t},\Sigma_{z,t}] = \varphi_{enc}(\varphi_{x^c}(x^c_{t}), h_{t-1}) \\
 \end{aligned}
 \end{equation}
 
 % Explanation of all the small things
-The first line of Equation \ref{rnn:eq:generative} corresponds to the approximate posterior or decoder, defined by a normal distribution parametrized by $\varphi_{dec}$, which can be any differentiable function (for example, a neural network). The second line corresponds to the encoder, defined similarly to the decoder. They both include as a parameter $h_{t-1}$, which is the hidden state of the previous recurrent step. $z$ and $x$ are also transformed by $\varphi_{z}$ and $\varphi_{x^c}$, differentiable functions, with $\varphi_{x^c}$ being specific to each channel. These transformations are key for the network to learn complex sequences \cite{Chung2015}.\\
+The first line of Equation \ref{rnn:eq:generative} corresponds to the approximate posterior or decoder, defined by a normal distribution parametrized by $\varphi_{dec}^c$ for each channel, which can be any differentiable function (for example, a neural network). The second line corresponds to the encoder, defined similarly to the decoder. They both include as a parameter $h_{t-1}$, which is the hidden state of the previous recurrent step. $z$ and $x$ are also transformed by $\varphi_{z}$ and $\varphi_{x^c}$, differentiable functions, with $\varphi_{x^c}$ being specific to each channel. These transformations are key for the network to learn complex sequences \cite{Chung2015}.\\
 
 The recurrent step is defined by:
 
@@ -124,7 +124,7 @@ Accounting for the dependencies described by the recurrent step in Equation \ref
 \end{equation}
 
 \begin{equation} \label{eq:encfact}
-    \mathit{p}(x^c_{\leq T}, z_{\leq T}) = \prod^T_{t=1} \mathit{p}(x_t | z_{\leq t}, x^c_{<t})\mathit{p}(z_t | x^c_{<t}, z_{<t}).
+    \mathit{p}(x_{\leq T}, z_{\leq T}) = \prod^T_{t=1} \mathit{p}(x_t | z_{\leq t}, x_{<t})\mathit{p}(z_t | x_{<t}, z_{<t}).
 \end{equation}
 
 These expressions will be used for the derivation of the lower bound of the model. Figure \ref{fig:rnn} shows a visual representation of the main recurrent building block of the network.
@@ -224,15 +224,14 @@ As the channels are conditionally independent from the others, we can factorize 
 \begin{equation} 
 \begin{aligned} \label{rnn:eq:finalopt}
 \displaystyle
-= \mathbb{E}_c \,\mathbb{E}_{\mathit{q}(z_{\leq T}|x^c_{\leq T})} \Big[ \sum^T_{t=1} & \Big[ \sum^C_{i=1} \ln \mathit{p}(x^i_t |z_{\leq T}, x^i_{< t}) \Big] \\
+= \mathbb{E}_c \,\mathbb{E}_{\mathit{q}(z_{\leq T}|x^c_{\leq T})} \Big[ \sum^T_{t=1} & \Big[ \sum^C_{i=1} \ln \mathit{p}(x^i_t |z_{\leq T}, x_{< t}) \Big] \\
 &- \mathcal{D}_{KL}( \mathit{q}(z_t |x^c_{\leq t}, z_{< t}) || \mathit{p}(z_t |x_{< t}, z_{< t})) \Big].
 \end{aligned}
 \end{equation}
 
 By maximizing this lower bound with respect to the model parameters, we are also minimizing the log likelihood of the model. The first term of Equation \ref{rnn:eq:finalopt} forces a joint decoding of the channels at each time point, allowing us to predict missing channels. The second term, which acts as a regularization, forces the encoders of each channel to be close to a common prior generated from the previous time point, enforcing a temporal structure.
 
-\subsubsection{Channel reconstruction}
-
+\subsubsection{Channel reconstruction}\label{sec:channelrec}
 Thanks to the first term of the lower bound in Equation \ref{rnn:eq:finalopt}, we are able to reconstruct the data for a missing channel using existing ones. For a missing channel $c_{m}$, and for each time point $t$, we can decode the associated latent space $z$ of each existing channel and reconstruct the missing channel using the following expression:
 
 \begin{equation}
@@ -241,7 +240,7 @@ Thanks to the first term of the lower bound in Equation \ref{rnn:eq:finalopt}, w
 
 \subsubsection{Variational dropout} 
 
-Variational dropout was proposed by Kingma et al.\ \cite{Kingma2015} to regularize variational autoencoders and sparsify their latent space. It works by specifying a reparametrization of the posterior and learning the dropout rates of each latent dimension via a trainable parameter. This reparametrization is defined as:
+Variational dropout was proposed by Kingma et al.\ \cite{Kingma2015} to regularize variational autoencoders and sparsify their latent space. It works by specifying a reparametrization of the posterior and learning the dropout rates of each latent dimension via a trainable parameter. This reparametrization could defined as:
 
 \begin{equation}
     \mathit{q}(z_t | x^c_{\leq t}, z_{< t}) \sim \mathcal{N}(\mu_{z,t},\alpha\mu_{z,t}^2),
@@ -271,13 +270,13 @@ We implemented a generation method of longitudinal data from a set of latent var
 \end{gathered}
 \end{equation}
 
-$I_{l}$ is the identity matrix with size $l \times l$, where $l$ is the latent space size. $W^c \in \mathbb{R}^{g \times l}$, with $g$ being the number of features of the output channel, is a random orthonormal matrix that linearly relates each channel $c$ to the latent space.  $f_{long}$ represents the temporal component of the data, depending on time point $t$, and $\varepsilon$ is a random noise variable. We use simple sigmoid, cosinus and sinus functions. Each channel will have a different longitudinal component, depending on a common underlying latent space. We test the performance of variational dropout for different values of $l$. We also evaluate if the network is able to reconstruct the original channel.   \\
+$I_{l}$ is the identity matrix with size $l \times l$, where $l$ is the latent space size. $W^c \in \mathbb{R}^{g \times l}$, with $g$ being the number of features of the output channel, is a random orthonormal matrix that linearly relates each channel $c$ to the latent space.  $f_{long}$ represents the temporal component of the data, depending on time point $t$, and $\varepsilon$ is a random noise variable. We use simple sigmoid, cosinus and sinus functions for the longitudinal component. Each channel will have a different longitudinal component, depending on a common underlying latent space. We test the performance of variational dropout for different values of $l$. We also evaluate if the network is able to reconstruct the original channel.   \\
 
 \subsubsection{ADNI data}
 
 Data used in this chapter were obtained from the Alzheimer’s Disease Neuroimaging Initiative (ADNI) database \cite{Mueller2005}. The ADNI was launched in 2003 as a public-private partnership led by PI Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial biological imaging biomarkers, and clinical and neuropsychological assessment can be combined to measure the progression of MCI and early AD. \\
 
-We focused on five different data modalities. Full relation of the features used can be found in supplementary file S1: \\
+We focused on five different data modalities. Full relation of the features used can be found in supplementary file S1: 
 
 \begin{itemize}
     \item Brain subcortical volumes: We select MRI T1 weighted images, preprocessed using gradient warping, scaling, B1 correction, and N3 homogeneity correction. Images were then automatically processed with the longitudinal pipeline \cite{Reuter2012} in FreeSurfer. Specifically, an unbiased within-subject template space and image is created using robust, inverse consistent registration \cite{Reuter2010}. Several processing steps, such as skull stripping, Talairach transform, atlas registration as well as spherical surface maps and parcellations are then initialized with common information from the within-subject template, significantly increasing reliability and statistical power. We use the parcelled subcortical volumes, obtaining 40 features.
@@ -287,7 +286,7 @@ We focused on five different data modalities. Full relation of the features used
     \item APOE (Apolipoprotein) $\varepsilon4$ allele load: a single feature indicating the number of copies of this allele, which is a risk factor of AD \cite{Saunders1993}. This is a cross-sectional, baseline modality.
 \end{itemize}
 
-We selected subjects that had no missing data at their baseline acquisition for any of the channels, and all subsequent follow-ups that had at least one of the existing longitudinal modalities, and had no missing features intra-modality. With this criteria, we selected 897 subjects, with a total of 7224 acquisitions. Table \ref{rnn:demographic} shows the demographic information of the selected cohort. Regarding the distribution of the data across modalities, Figure \ref{fig:rnn:missingdata} shows the information about missing, mean and maximum number of acquisitions across modalities.
+We selected subjects that had no missing data at their baseline acquisition for any of the channels, and all subsequent follow-ups that had at least one of the existing longitudinal modalities, and had no missing features intra-modality. With this criteria, we selected 897 subjects, with a total of 7224 acquisitions. Table \ref{rnn:demographic} shows the demographic information of the selected cohort. Regarding the distribution of the data across modalities, Figure \ref{fig:rnn:missingdata} shows the information about missing, mean and maximum number of acquisitions across modalities. \\
 
 \begin{table}[!htbp]
 \centering
@@ -322,7 +321,7 @@ For the ADNI cohort, we first separate our data between training and test set, w
 %%% ACTUALITZAR AL FINAL
 \begin{table}[!htbp]
 \centering
-\resizebox{0.8\textwidth}{!}{%
+\resizebox{0.7\textwidth}{!}{%
 \begin{tabular}{@{}ccc@{}}
 \toprule
 Hyperparam & Synthetic model & ADNI model \\ \midrule
@@ -340,7 +339,7 @@ We evaluate our results on the held-out test set on two different tasks:
 
 \begin{itemize}
     \item \textbf{Time point prediction:} we remove the last time point data from each subject in the test set, and we predict it using the rest of the data. 
-    \item \textbf{Channel reconstruction:} we reconstruct each different channel from the rest of the channels, using the joint decoder $p_c(x|z)$. We evaluate the results using different combinations of channels.
+    \item \textbf{Channel reconstruction:} we reconstruct each different channel from the rest of the channels, using the joint decoder approach described in Section \ref{sec:channelrec}.
 \end{itemize}
 
 For the first task, we consider linear regression for each sample and channel as baseline. For the second task, we compare our method to a baseline method based on k-nearest neighbor: for each sample in the test set, we perform a k-means search for each individual channel to find the most similar sample in our training set. For each of those samples, we select the channel we are reconstructing, and we average them to obtain the reconstructed channel for the original sample. We evaluate both tasks using mean absolute error (MAE). \\
@@ -370,7 +369,7 @@ Regarding the application of variational dropout, Figure \ref{fig:rnn:synthvar} 
 
 \subsection{ADNI results}
 
-After hyperparameter optimization, we selected layer size=300, No. latent dim.=20, No. layers=1 and RNN hidden size=300 as the best parameters. Table \ref{table:results:data} shows the results of the two tasks described on the hold-out test set, and compares it to the baseline models described above. We show the results for single-channel and multi-channel models. Figure \ref{fig:rnn:latent} shows the latent space on the test set colored by diagnosis, age, and time point. \\
+After hyperparameter optimization, we selected layer size=300, No. latent dim.=20, No. layers=1 and RNN hidden size=300 as the best parameters. Table \ref{table:results:data} shows the results of the two tasks described on the hold-out test set, and compares it to the baseline models described above. We show the results for single-channel and multi-channel models. Figure \ref{fig:rnn:latent} shows the latent space on the test set colored by diagnosis, age, and time point. 
 
 \begin{table}[!htbp]
 \centering
@@ -391,7 +390,7 @@ MC-RVAE &     0.352    &  0.489  & 0.496 &  \textbf{0.691}   &  \textbf{0.687}  
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\textwidth]{figures/rnnvae/latent_space_fig.png}
-  \caption[Latent space for the test set.]{Dimensions 0 and 1 of the latent space, for subjects on the hold-out test set. Each point represents a different acquisition. Left graphic: colored by diagnosis. Middle: colored by age. Right: colored by time point.}\label{fig:rnn:latent}
+  \caption[Latent space for the test set.]{Selected dimensions of the latent space $z$, for subjects on the hold-out test set. Each point represents a different acquisition. Left graphic: colored by diagnosis. Middle: colored by age. Right: colored by time point.}\label{fig:rnn:latent}
 \end{figure}
 
 Figure \ref{fig:rnn:qualitative} shows four synthetic time points of cortical and subcortical data. We sampled them using two sequences of 4 cognitive acquisitions: a typical sequence of healthy control and a sequence of a rapidly declining patient, with similar demographic information. Figures were generated using Brainpainter \cite{Marinescu2019a}. The color scale displayed on the figure was obtained by computing the negative z-score of the generated data with respect to a control group of cognitively healthy, amyloid-negative \cite{Shaw2009} patients. \\

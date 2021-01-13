@@ -1,4 +1,4 @@
-\blfootnote{Martí‐Juan, G., Sanroma‐Guell, G., Cacciaglia, R., Falcon, C., Operto, G., Molinuevo, J. L., … Piella, G. (2020). Nonlinear interaction between APOE$\varepsilon$ 4 allele load and age in the hippocampal surface of cognitively intact individuals. Human Brain Mapping, hbm.25202. \url{https://doi.org/10.1002/hbm.25202}}
+\blfootnote{Adapted from: Martí‐Juan, G., Sanroma‐Guell, G., Cacciaglia, R., Falcon, C., Operto, G., Molinuevo, J. L., … Piella, G. (2020). Nonlinear interaction between APOE$\varepsilon$ 4 allele load and age in the hippocampal surface of cognitively intact individuals. Human Brain Mapping, hbm.25202. \url{https://doi.org/10.1002/hbm.25202}}
 
 \section{Introduction}
 \label{sec:introduction}
@@ -36,14 +36,14 @@ Our data processing pipeline consists of four stages: hippocampus segmentation o
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.75\textwidth]{figures/hippocampus/figure_pipeline.pdf}
+  \includegraphics[width=0.9\textwidth]{figures/hippocampus/figure_pipeline.pdf}
   \caption{Outline of the processing pipeline.}\label{fig:pipeline}
 \end{figure}
 
 \begin{enumerate}
     \item \textbf{Hippocampus segmentation:} We used a multi-atlas segmentation approach with joint label fusion and corrective learning \cite{Wang2013} to segment the hippocampi. We chose this algorithm, implemented in the ANTs library \cite{Avants2009}, because of its top performance in various segmentation challenges \cite{Wang2013} and good performance when compared to other segmentation methods \cite{Dill2015}. As atlas, we used 15 segmented MRI scans from the ADNI database. The hippocampus segmentations of the atlases, provided by ADNI, were computed using a semi-automatic hippocampal volumetry method \cite{Hsu2002}. The 15 atlas were selected so that they spanned a wide hippocampal shape variability \cite{Sanroma2014}. \\
     
-    \item \textbf{Image registration:} We non-rigidly registered each subject's image and its corresponding segmentation to a template image (MNI152) and its corresponding ground truth hippocampus segmentation using the symmetric diffeomorphic normalization approach \cite{Avants2008a} implemented in ANTs library. We used two channels, equally weighted, to jointly register the subject image to the template image and the hippocampus segmentation of the subject to the template segmentation. This allowed us to obtain a more precise registration between each image and the template, while ensuring that the corresponding segmentations match well. The registration generates a deformation field for each subject. \\
+    \item \textbf{Image registration:} We non-rigidly registered each subject's image and its corresponding segmentation to a template image (MNI 152) and its corresponding ground truth hippocampus segmentation using the symmetric diffeomorphic normalization approach \cite{Avants2008a} implemented in ANTs library. We used two channels, with equal weight, to jointly register the subject image to the template image and the hippocampus segmentation of the subject to the template segmentation. This allowed us to obtain a more precise registration between each image and the template, while ensuring that the corresponding segmentations match well. The registration generated a deformation field for each subject. \\
     
     \item \textbf{Mesh deformation:} We used the segmentation from the template image to build a template mesh, using the marching cubes algorithm \cite{Lorensen1987}, giving more vertex density to regions with higher curvature. The deformation fields obtained from the previous registration stage were used to warp the template mesh to each subject space. This procedure ensures that the generated meshes have vertex and triangle correspondences, which directly facilitates the downstream statistical analysis. \\
 
@@ -70,7 +70,7 @@ We also conducted both an automatic and manual quality control to detect segment
 & Heterozygotes & 71 & 189 & 100 & 360 & - \\
 & Homozygotes & 7 & 55 & 43 & 105 & - \\ 
 & Age & $75.25\pm5.31$ & $74.13\pm7.52$ & $74.91\pm7.49$ & $74.62\pm6.95$ & F=0.56, P=0.456 \\
-& Education & $16.15\pm2.78$ & $15.76\pm2.65$ & $14.84\pm3.14$ & $15.67\pm2.99$ & F=22.97, P>0.001  \\
+& Education & $16.15\pm2.78$ & $15.76\pm2.65$ & $14.84\pm3.14$ & $15.67\pm2.99$ & F=22.97, P<0.001  \\
 & Male/Female & 144/137 & 298/177 & 109/104 & 551/418 & $\chi^2=13.11$, P=0.001  \\
 & MMSE & $29.05\pm1.07$ & $27.2\pm1.82$ & $23.29\pm2.06$ & $26.88\pm2.67$ &  F=1230, P<0.001    \\
 \bottomrule
@@ -206,7 +206,7 @@ For the squared interaction model, \ref{table:fullALFAtable} (lower part) shows 
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.75\textwidth]{figures/hippocampus/fig_interactionapoealfa_OR.pdf}
+  \includegraphics[width=0.9\textwidth]{figures/hippocampus/fig_interactionapoealfa_OR.pdf}
   \caption[Quadratic interaction between APOE OR for AD and age on the right hippocampus.]{Quadratic interaction between APOE OR for AD and age on the right hippocampus after adjusting for other covariates, for all possible allele pairs. Positive values (colored in light yellow) indicates expansion. Negative values (colored in dark violet) indicates contraction. Arrow length and size indicate a stronger effect. For the interaction plots, Y(adj) is the magnitude of the adjusted $y$ variable on the detected cluster. Shaded gray areas indicate $90\%$ confidence intervals.}\label{fig:alfainteractionfig2}
 \end{figure}
 
