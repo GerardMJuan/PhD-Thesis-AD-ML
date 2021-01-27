@@ -215,7 +215,7 @@ which finally leads to:
 \begin{aligned}
 \displaystyle
 = \mathbb{E}_c \,\mathbb{E}_{\mathit{q}(z_{\leq T}|x^c_{\leq T})}  \Big[ & \sum^T_{t=1} \ln \mathit{p}(x_t |z_{\leq t}, x_{< t}) \\
-&- \mathcal{D}_{KL}(\mathit{q}(z_t |x^c_{\leq t}, z_{< t}) || \mathit{p}(z_t |x_{< t}, z_{< t})) \Big].
+&- \mathcal{D}_{KL}(\mathit{q}(z_t |x^c_{\leq t}, z_{W< t}) || \mathit{p}(z_t |x_{< t}, z_{< t})) \Big].
 \end{aligned}
 \end{equation}
 
@@ -376,7 +376,7 @@ After hyperparameter optimization, we selected layer size=300, No. latent dim.=2
 \resizebox{0.95\textwidth}{!}{%
 \begin{tabular}{@{}ccccccccc@{}}
 \toprule
-             & \multicolumn{3}{c}{Long. prediction} & \multicolumn{5}{c}{Channel rec.}      \\ \midrule
+             & \multicolumn{3}{c}{Long. prediction} & \multicolumn{5}{c}{Channel reconstruction}      \\ \midrule
              & MRI (vol.)   & MRI (cort.)   & Cog.  & MRI (vol.) & MRI (cort.) & Cog. & Demog. & APOE \\ \midrule
 Linear       &  0.240  &  0.395   &  0.486     & -          & -           & -    & -      & -    \\
 K-means          & -       & -  & -     &  0.789   &    0.77  & 0.703     & 1.005       &     0.901 \\
