@@ -1,5 +1,5 @@
 # PhD-Thesis - Gerard Martí Juan
-My PhD thesis, done at Universitat Pompeu Fabra, November 2016-Jaunary 2021.
+My PhD thesis, done at Universitat Pompeu Fabra, November 2016-January 2021.
 Under the supervision of Prof. Gemma Piella and Dr. Gerard Sanromà.
 
 # Abstract
